@@ -22,14 +22,14 @@ viewsRouter.get('/account/delete', (req, res) => {
 /* 관리자 페이지 라우팅 */
 viewsRouter.use('/admin', serveStatic('admin'));
 
-viewsRouter.use('/product', serveStatic('product'));
-viewsRouter.get('/product/add', (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/product/product-add.html"));
+viewsRouter.use('/admin/product', serveStatic('product')); // 상품 조회
+viewsRouter.get('/admin/product/add', (req, res) => {   // 카테고리 추가
+  res.sendFile(path.join(__dirname, "../views/admin-product-add/product-add.html"));
 });
 
-viewsRouter.use('/category', serveStatic('category'));
-viewsRouter.get('/category/edit', (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/category/edit.html"));
+viewsRouter.use('/admin/category', serveStatic('category')); // 카테고리 조회
+viewsRouter.get('/admin/category/add', (req, res) => {   // 카테고리 추가
+  res.sendFile(path.join(__dirname, "../views/admin-category-add/category-add.html"));
 });
 
 
