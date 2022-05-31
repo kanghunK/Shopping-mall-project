@@ -12,11 +12,11 @@ const emailInput = document.querySelector('#emailInput');
 const passwordInput = document.querySelector('#passwordInput');
 const submitButton = document.querySelector('#submitButton');
 
-addAllElements();
+// addAllElements();
 addAllEvents();
 
 // html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {}
+// async function addAllElements() {}
 
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
@@ -55,10 +55,16 @@ async function handleSubmit(e) {
   // 로그인 api 요청
   try {
     const data = { email, password };
-    // debugger
+    
+    
     const result = await Api.post('/api/users/login', data);
     const token = result.token;
-    // console.log(token);
+    // 관리자 로그인 체크 (아직 업로드 안해주심)
+    const adminCheck = result.role;
+    if (adminCheck === 'admin') {
+
+    }
+    
     // 로그인 성공, 토큰을 세션 스토리지에 저장
     // 물론 다른 스토리지여도 됨
     sessionStorage.setItem('token', token);

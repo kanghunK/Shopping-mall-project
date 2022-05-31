@@ -4,6 +4,8 @@ import { loginCheck } from "../login-check.js";
 /*
 
   nav가 변하는 부분   =>    로그인  /  회원가입  /  카트
+  
+  관리자 계정으로 로그인 했을 때 =>  페이지 관리 / 계정 관리 / 로그아웃 / 카트
 
 */
 
