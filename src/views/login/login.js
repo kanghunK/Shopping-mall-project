@@ -3,7 +3,7 @@ import { validateEmail } from '/useful-functions.js';
 import { navTransition } from '../navTransition/navTransition.js';
 
 
-navTransition('home');
+navTransition('login');
 
 
 
@@ -59,10 +59,13 @@ async function handleSubmit(e) {
     
     const result = await Api.post('/api/users/login', data);
     const token = result.token;
+
     // 관리자 로그인 체크 (아직 업로드 안해주심)
     const adminCheck = result.role;
     if (adminCheck === 'admin') {
-
+      sessionStorage.setItem('admin', true);
+    } else {
+      sessionStorage.setItem('admin', false);
     }
     
     // 로그인 성공, 토큰을 세션 스토리지에 저장

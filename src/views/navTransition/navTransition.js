@@ -13,38 +13,44 @@ import { loginCheck } from "../login-check.js";
 
 async function navTransition(pageName) {
 
-  const isLogined = await loginCheck();
-
+  // const isLogined = await loginCheck();
+  const checkData = await loginCheck();
+  console.log(checkData);
   const navSelect = document.querySelector('#navSelect');
+
+
   if (pageName !== 'login') {
-    const content = isLogined ?
+    const content = checkData.isLogined ?
       '<li><a href="/" id="logout">로그아웃</a></li>'
       : '<li><a href="/login">로그인</a></li>';
     navSelect.insertAdjacentHTML('afterbegin', content);
   }
 
 
-  if (pageName === 'register' || isLogined) {
+  if (pageName === 'register' || checkData.isLogined) {
     const registerBtn = document.querySelector('.register_btn');
     registerBtn.parentNode.removeChild(registerBtn);
   }
 
-  if (pageName !== 'account' && isLogined) {
-    const navSelect = document.querySelector('#navSelect');
+  if (pageName !== 'account' && checkData.isLogined) {
     const account = `<li><a href="/account">계정관리</a></li>`;
     navSelect.insertAdjacentHTML('afterbegin', account);
   }
 
+  if (checkData.idAdmin && pageName !== 'adminPage') {
+    const addminPage = `<li><a href="/admin">페이지 관리</a></li>`;
+    navSelect.insertAdjacentHTML('afterbegin', addminPage);
+  }
+
 
   // 로그아웃 시 토큰, userId이 삭제되며 홈페이지로 이동
-  if (isLogined) {
+  if (checkData.isLogined) {
     document.querySelector('#logout').addEventListener('click', () => {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('userId');
+      sessionStorage.clear();
     })
   }
 
-  return isLogined;
+  return checkData.isLogined;
 }
 
 

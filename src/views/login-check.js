@@ -6,16 +6,19 @@ async function loginCheck() {
     // debugger;
     if (hasTokenCheck) {
         try {
-            // 로그인 상태
+            // 로그인 구분(유저 | 관리자)
             const {userId} = await Api.get('/api/auth');
             sessionStorage.setItem('userId', userId);
+            
+            const adminCheck = sessionStorage.getItem('admin');
+
 
             // console.log(userId);
             // if (sessionStorage.getItem('userId') === null) {
             //     sessionStorage.setItem('userId', userId);
             // }
 
-            return true;
+            return {isLogined: true, idAdmin: adminCheck};
         } catch (error) {
             alert('로그인 인증에 실패했습니다..다시 로그인 해주세요.');
             console.log(error);
@@ -23,7 +26,7 @@ async function loginCheck() {
             window.location.href = '/';
         }
     } 
-    return false;
+    return {isLogined: false, idAdmin: false};
 }
 
 
