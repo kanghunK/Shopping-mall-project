@@ -13,44 +13,47 @@ import { loginCheck } from "../login-check.js";
 
 async function navTransition(pageName) {
 
-  // const isLogined = await loginCheck();
   const checkData = await loginCheck();
-  console.log(checkData);
+  // const isAdmin = checkData.isAdmin === 'true' ? true : false;
+  // const isLogined = checkData.isLogined ? true : false;
+  const isAdmin = checkData.isAdmin
+  const isLogined = checkData.isLogined
+  console.log( isLogined, isAdmin, checkData);
   const navSelect = document.querySelector('#navSelect');
 
 
   if (pageName !== 'login') {
-    const content = checkData.isLogined ?
+    const content = isLogined ?
       '<li><a href="/" id="logout">로그아웃</a></li>'
       : '<li><a href="/login">로그인</a></li>';
     navSelect.insertAdjacentHTML('afterbegin', content);
   }
 
 
-  if (pageName === 'register' || checkData.isLogined) {
+  if (pageName === 'register' || isLogined) {
     const registerBtn = document.querySelector('.register_btn');
     registerBtn.parentNode.removeChild(registerBtn);
   }
 
-  if (pageName !== 'account' && checkData.isLogined) {
+  if (pageName !== 'account' && isLogined) {
     const account = `<li><a href="/account">계정관리</a></li>`;
     navSelect.insertAdjacentHTML('afterbegin', account);
   }
 
-  if (checkData.idAdmin && pageName !== 'adminPage') {
+  if (isAdmin && pageName !== 'adminPage') {
     const addminPage = `<li><a href="/admin">페이지 관리</a></li>`;
     navSelect.insertAdjacentHTML('afterbegin', addminPage);
   }
 
 
   // 로그아웃 시 토큰, userId이 삭제되며 홈페이지로 이동
-  if (checkData.isLogined) {
+  if (isLogined) {
     document.querySelector('#logout').addEventListener('click', () => {
       sessionStorage.clear();
     })
   }
 
-  return checkData.isLogined;
+  return checkData;
 }
 
 

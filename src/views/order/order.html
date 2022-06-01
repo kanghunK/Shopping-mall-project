@@ -14,6 +14,20 @@
     <script defer src="https://kit.fontawesome.com/7630448495.js" crossorigin="anonymous"></script>
     <!-- 커스텀 css, js -->
     <script src="order.js" type="module" defer></script>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=86fb880ec2ea23956cfdc20143ff1cae"></script>
+    <!-- <script type="text/javascript" async
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=86fb880ec2ea23956cfdc20143ff1cae"></script>
+    <script async>
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667),
+            level: 3
+        };
+
+        var map = new kakao.maps.Map(container, options);
+    </script> -->
+
 </head>
 
 <body>
@@ -80,24 +94,75 @@
                         </tr>
                         <tr>
                             <th scope="row" class="phone_th">
-                                전화번호
+                                연락처
                             </th>
                             <td class="buyer_phone">
                                 <strong></strong>
-                                <form action="/">
-                                    <div>
-                                        <input type="tel" class="customer_phone ">
-                                        <button type="submit">
-                                            변경
-                                        </button>
-                                    </div>
+                                <form id="phone-number-form">
+                                    <fieldset>
+                                        <div>
+                                            <label for="change_number">변경할 연락처 입력</label>
+                                            <input name="numberInput" type="text" class="number_input input_el">
+                                        </div>
+                                        <div>
+                                            <label for="check_password">정보를 변경하려면 아래에 비밀번호를 입력하세요.</label>
+                                            <input id="password_check_input" name="passwordCheck" type="password">
+                                            <button type="submit" id="change_number_btn">변경완료</button>
+                                            <button type="button" id="cancel_number_btn">취소</button>
+                                        </div>
+                                    </fieldset>
                                 </form>
                             </td>
                         </tr>
+                        <tr>
+                            <th scope="row">
+                                배송 주소
+                            </th>
+                            <td class="buyer_address">
+                                <strong></strong>
+                                <form id="address-form">
+                                    <fieldset>
+                                        <div class="current_address">
+                                            <label for="current_address">현재 계정 주소</label><br>
+                                            <strong></strong>
+                                            <button type="button" id="this_select_btn">이 주소로 선택</button>
+                                        </div><br>
+                                        <div>
+                                            <label for="search_address">배송할 주소 검색</label>
+                                            <button type="button" id="search_btn">검색</button><br>
+                                        </div><br>
+                                        <div>
+                                            <label for="select_address">현재 주소지로 선택: </label>
+                                            <button type="submit" id="current_select_btn">확인</button>
+                                        </div>
+                                        <div id="map" style="width:500px;height:400px;"></div>
+                                        <!-- <script type="text/javascript"
+                                            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=86fb880ec2ea23956cfdc20143ff1cae"></script> -->
+                                        <script>
+                                            var container = document.getElementById('map');
+                                            var options = {
+                                                center: new kakao.maps.LatLng(33.450701, 126.570667),
+                                                level: 3
+                                            };
+
+                                            var map = new kakao.maps.Map(container, options);
+                                        </script>
+                                        <div>
+                                            <input name="addressInput1" type="text" id="main_address_input"
+                                                class="address_input input_el">
+                                            <input name="addressInput2" type="text" placeholder="상세주소 입력"
+                                                class="address_input input_el">
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </td>
+                        </tr>
+
+
                     </tbody>
                 </table>
             </div>
-            <h2 class="recipient_title h2_title">수령인 정보</h2>
+            <!-- <h2 class="recipient_title h2_title">수령인 정보</h2>
             <div class="recipient">
                 <table class="recipient_table table_element">
                     <tbody>
@@ -132,38 +197,53 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
             <!-- <h2 class="h2_title">배송 정보</h2>
             <div class="orderlist">
                 <table></table>
             </div> -->
+            <!-- 각각의 상품에 대한 정보를 넣는다. -->
+            <h2 class="orderinfo_title h2_title">주문 정보</h2>
+            <div class="orderinfo">
+                <table class="orderinfo_table table_element">
+                    <tbody>
+                        <tr id="payment_tr">
+                            <th scope="row">상품가격</th>
+                            <td>
+                                <strong></strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <h2 class="payment_title h2_title">결제 정보</h2>
             <div class="payment">
                 <table class="payment_table table_element">
                     <tbody>
+                        <!-- <tr>
+                            <th scope="row" id="total_th">총상품가격</th>
+                            <td></td>
+                        </tr> -->
                         <tr>
-                            <th scope="row" class="total_th">총상품가격</th>
+                            <th scope="row" id="payment_th">총결제금액</th>
                             <td></td>
                         </tr>
                         <tr>
-                            <th scope="row" class="discount_th">즉시할인</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="coupon_th">할인쿠폰</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="delivery_th">배송비</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="payment_th">총결제금액</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="option_th">결제방법</th>
-                            <td></td>
+                            <th scope="row" id="option_th">결제방법</th>
+                            <td>
+                                <label for="pet-select">선택해 주세요:</label>
+
+                                <select id="payment-option-select">
+                                    <option value="">--Please choose an option--</option>
+                                    <option value="card">카드</option>
+                                    <option value="virtual">가상 계좌</option>
+                                    <option value="transfer">계좌 이체</option>
+                                    <option value="phone">휴대전화</option>
+                                    <option value="kakao">카카오 페이</option>
+                                    <option value="naver">네이버 페이</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -212,7 +292,7 @@
                 </form>
             </div>
         </div>
-    </div> -->
+    </div>
 
 
 </body>
